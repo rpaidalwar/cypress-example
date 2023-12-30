@@ -1,0 +1,38 @@
+name: Cypress Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Cypress test'
+        default: 'run'
+        required: true
+        type: string
+  # schedule:
+  #   - cron: '30 16 * * 1-5'
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+
+    # env:
+    #   cypress_username: ${{ secrets.cypress_username }}
+    #   cypress_password: ${{ secrets.cypress_password }}
+    #   cypress_base_url: ${{ secrets.cypress_base_url }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests and Generate HTML Report
+        uses: cypress-io/github-action@v6.5.0
+        with:
+          browser: electron
+ 
